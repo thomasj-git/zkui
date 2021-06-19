@@ -37,7 +37,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @SuppressWarnings("serial")
-@WebServlet(urlPatterns = {"/acd/appconfig"})
+@WebServlet(urlPatterns = {"/cms-ability/zkui/acd/appconfig"})
 public class RestAccess extends HttpServlet {
 
     private final static Logger logger = LoggerFactory.getLogger(RestAccess.class);

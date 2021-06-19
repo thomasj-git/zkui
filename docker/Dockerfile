@@ -1,13 +1,14 @@
 FROM java:8
 
-MAINTAINER Miguel Garcia Puyol <miguelpuyol@gmail.com>
+ENV TZ=Asia/Shanghai
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
-WORKDIR /var/app
+WORKDIR /
 
-ADD zkui-*.jar /var/app/zkui.jar
-ADD config.cfg /var/app/config.cfg
-ADD bootstrap.sh /var/app/bootstrap.sh
+ENV LANG C.UTF-8
 
-ENTRYPOINT ["/var/app/bootstrap.sh"]
+ENTRYPOINT ["/bin/bash", "/bootstrap.sh"]
 
-EXPOSE 9090
+COPY / .
+
+RUN chmod +x /bootstrap.sh

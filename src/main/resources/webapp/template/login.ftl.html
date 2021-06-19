@@ -15,39 +15,84 @@
 # limitations under the License.
 #
 -->
-<#import "layouts/login-layout.ftl.html" as main> 
+<#import "layouts/login-layout.ftl.html" as main>
 <@main.page>
 
 <div class="container">
 
-    <form method="post" action="/login">
+    <form method="post" action="/cms-ability/zkui/login" onsubmit="encryptForm()">
         <div class="row">
             <div class="col-md-4">
                 &nbsp;
             </div>
             <div class="col-md-4">
-                <h2 class="text-center">Login</h2>
-                <input type="text" name="username" class="form-control" placeholder="Username" required autofocus>
+                <h2 class="text-center">配置中心</h2>
+                <input type="text" id="username" name="username" class="form-control" placeholder="账号" required autofocus>
                 <br/>
-                <input type="password" name="password" class="form-control" placeholder="Password" required>
+                <input type="password" id="password" name="password" class="form-control" placeholder="密码" required>
                 <br/>
-                <input type="submit" name="action" value="Sign In" class="btn btn-lg btn-primary btn-block"/>
+                <div style="white-space: nowrap;">
+                    <input type="text" name="code" value="" class="form-control col-md-4" placeholder="验证码" required autofocus/>
+                    <img onclick="javascript:getvCode()" id="verifyimg" style="margin-left: 20px;"/>
+                </div>
                 <br/>
-                <#if loginMessage??>
-                <p class="text-success text-center">${loginMessage}</p>
+                <input type="submit" name="action" value="登录" class="btn btn-lg btn-primary btn-block"/>
                 <br/>
-                </#if> 
-                
+<!--                <#if loginMessage??>-->
+<!--                <p class="text-success text-center">${loginMessage}</p>-->
+<!--                <br/>-->
+<!--                </#if> -->
+
                 <#if flashMsg??>
                 <p class="text-danger text-center">${flashMsg}</p>
-                </#if> 
+                </#if>
             </div>
             <div class="col-md-4">
                 &nbsp;
             </div>
-        </div> 
+        </div>
 
     </form>
 
 </div> <!-- /container -->
-</@main.page> 
+</@main.page>
+<script type="text/javascript">
+    getvCode();
+
+    /**
+     * 获取验证码
+     * 将验证码写到login.html页面的id = verifyimg 的地方
+     */
+    function getvCode() {
+        document.getElementById("verifyimg").src = timestamp("/cms-ability/zkui/verifyCode");
+    }
+    //为url添加时间戳
+    function timestamp(url) {
+        var getTimestamp = new Date().getTime();
+        if (url.indexOf("?") > -1) {
+            url = url + "&timestamp=" + getTimestamp
+        } else {
+            url = url + "?timestamp=" + getTimestamp
+        }
+        return url;
+    };
+
+    function zkuiEncrypt(message, aseKey){
+        var encrypt = CryptoJS.AES.encrypt(message, CryptoJS.enc.Utf8.parse(aseKey), {
+            mode: CryptoJS.mode.ECB,
+            padding: CryptoJS.pad.Pkcs7
+        }).toString();
+        return encrypt;
+    }
+
+    function encryptForm() {
+        var userName=document.getElementById("username").value;
+        var passwd =document.getElementById("password").value;
+        var userNameEncrypt=zkuiEncrypt(userName,"ailk!QAZ@#$)IY&^");
+        var passwdEncrypt=zkuiEncrypt(passwd,"ailk!QAZ@#$)IY&^");
+        document.getElementById("username").value=userNameEncrypt;
+        document.getElementById("password").value=passwdEncrypt;
+        console.info('username: %o, passwd: %o',userNameEncrypt,passwdEncrypt);
+        return true;
+    }
+</script>

@@ -36,7 +36,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @SuppressWarnings("serial")
-@WebServlet(urlPatterns = {"/history"})
+@WebServlet(urlPatterns = {"/cms-ability/zkui/history"})
 public class ChangeLog extends HttpServlet {
 
     private final static Logger logger = LoggerFactory.getLogger(ChangeLog.class);

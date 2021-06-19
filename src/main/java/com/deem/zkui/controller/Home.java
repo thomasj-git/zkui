@@ -41,7 +41,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @SuppressWarnings("serial")
-@WebServlet(urlPatterns = {"/home"}, loadOnStartup = 1)
+@WebServlet(urlPatterns = {"/cms-ability/zkui/home"}, loadOnStartup = 1)
 public class Home extends HttpServlet {
 
     private final static Logger logger = LoggerFactory.getLogger(Home.class);
@@ -133,23 +133,23 @@ public class Home extends HttpServlet {
                 case "Save Node":
                     if (!newNode.equals("") && !currentPath.equals("") && authRole.equals(ZooKeeperUtil.ROLE_ADMIN)) {
                         //Save the new node.
-                        ZooKeeperUtil.INSTANCE.createFolder(currentPath + newNode, "foo", "bar", ServletUtil.INSTANCE.getZookeeper(request, response, zkServerLst[0], globalProps));
+                        ZooKeeperUtil.INSTANCE.createFolder(currentPath + newNode, "foo", "bar", ServletUtil.INSTANCE.getZookeeper(request, response, zkServerLst[0],globalProps),globalProps);
                         request.getSession().setAttribute("flashMsg", "Node created!");
                         dao.insertHistory((String) request.getSession().getAttribute("authName"), request.getRemoteAddr(), "Creating node: " + currentPath + newNode);
                     }
-                    response.sendRedirect("/home?zkPath=" + displayPath);
+                    response.sendRedirect("/cms-ability/zkui/home?zkPath=" + displayPath);
                     break;
                 case "Save Property":
                     if (!newProperty.equals("") && !currentPath.equals("") && authRole.equals(ZooKeeperUtil.ROLE_ADMIN)) {
                         //Save the new node.
-                        ZooKeeperUtil.INSTANCE.createNode(currentPath, newProperty, newValue, ServletUtil.INSTANCE.getZookeeper(request, response, zkServerLst[0], globalProps));
+                        ZooKeeperUtil.INSTANCE.createNode(currentPath, newProperty, newValue, ServletUtil.INSTANCE.getZookeeper(request, response, zkServerLst[0],globalProps),globalProps);
                         request.getSession().setAttribute("flashMsg", "Property Saved!");
                         if (ZooKeeperUtil.INSTANCE.checkIfPwdField(newProperty)) {
-                            newValue = ZooKeeperUtil.INSTANCE.SOPA_PIPA;
+                            newValue = ZooKeeperUtil.SOPA_PIPA;
                         }
                         dao.insertHistory((String) request.getSession().getAttribute("authName"), request.getRemoteAddr(), "Saving Property: " + currentPath + "," + newProperty + "=" + newValue);
                     }
-                    response.sendRedirect("/home?zkPath=" + displayPath);
+                    response.sendRedirect("/cms-ability/zkui/home?zkPath=" + displayPath);
                     break;
                 case "Update Property":
                     if (!newProperty.equals("") && !currentPath.equals("") && authRole.equals(ZooKeeperUtil.ROLE_ADMIN)) {
@@ -161,7 +161,7 @@ public class Home extends HttpServlet {
                         }
                         dao.insertHistory((String) request.getSession().getAttribute("authName"), request.getRemoteAddr(), "Updating Property: " + currentPath + "," + newProperty + "=" + newValue);
                     }
-                    response.sendRedirect("/home?zkPath=" + displayPath);
+                    response.sendRedirect("/cms-ability/zkui/home?zkPath=" + displayPath);
                     break;
                 case "Search":
                     Set<LeafBean> searchResult = ZooKeeperUtil.INSTANCE.searchTree(searchStr, ServletUtil.INSTANCE.getZookeeper(request, response, zkServerLst[0], globalProps), authRole);
@@ -189,10 +189,10 @@ public class Home extends HttpServlet {
                         }
 
                     }
-                    response.sendRedirect("/home?zkPath=" + displayPath);
+                    response.sendRedirect("/cms-ability/zkui/home?zkPath=" + displayPath);
                     break;
                 default:
-                    response.sendRedirect("/home");
+                    response.sendRedirect("/cms-ability/zkui/home");
             }
 
         } catch (InterruptedException | TemplateException | KeeperException ex) {

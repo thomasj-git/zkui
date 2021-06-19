@@ -36,7 +36,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @SuppressWarnings("serial")
-@WebServlet(urlPatterns = {"/export"})
+@WebServlet(urlPatterns = {"/cms-ability/zkui/export"})
 public class Export extends HttpServlet {
 
     private final static Logger logger = LoggerFactory.getLogger(Export.class);

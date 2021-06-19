@@ -119,8 +119,17 @@ This standardization is only needed if you choose to use the rest lookup. You ca
 HTTPS
 ====================
 You can enable https if needed. 
+```bash
 keytool -keystore keystore -alias jetty -genkey -keyalg RSA
-
+```
+创建证书
+```bash
+keytool -genkey -alias zkui -keypass 'ailk!QAZ' -keyalg RSA -sigalg sha256withrsa -keysize 2048 -validity 7300 -keystore zkui.jks -storepass 'ailk!QAZ'
+```
+导出客户端证书
+```bash
+keytool -export -alias "zkui" -keystore "zkui.jks" -file "client.cer"
+```
 
 Limitations
 ====================

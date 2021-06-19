@@ -19,7 +19,7 @@
 <@main.page>
 
 <div class="container">
-    <form method="post" action="/home">
+    <form method="post" action="/cms-ability/zkui/home">
         <!--Bread crumb-->
         <div class="row-fluid">
             <div class="col-md-12">
@@ -38,7 +38,7 @@
                     <#assign breadCrumbPath = breadCrumbPath + "/" +  breadCrumb> 
                     </#if>
 
-                    <li><a href="/home?zkPath=${breadCrumbPath}" class="breadcrumb-select">${breadCrumb}</a></li>
+                    <li><a href="/cms-ability/zkui/home?zkPath=${breadCrumbPath}" class="breadcrumb-select">${breadCrumb}</a></li>
                     </#list>
                     <#else>
                     <li>/</li>
@@ -51,12 +51,12 @@
         <div class="row-fluid">
             <div class="col-md-3 well pre-scrollable scroll-pane" >
                 <span class="glyphicon glyphicon-folder-close"></span>
-                <a href="/home?zkPath=${parentPath}"><..></a>
+                <a href="/cms-ability/zkui/home?zkPath=${parentPath}"><..></a>
                 <br/>
                 <#list nodeLst as node>
                 <input type="checkbox" name="nodeChkGroup" value="${currentPath}${node}"/>
                 <span class="glyphicon glyphicon-folder-close"></span>
-                <a href="/home?zkPath=${currentPath}${node}">${node}</a>
+                <a href="/cms-ability/zkui/home?zkPath=${currentPath}${node}">${node}</a>
                 <br/>
                 </#list>
 
@@ -88,7 +88,7 @@
                                 </#if>
                             </td>
                             <#if navigate?? && navigate == 'true'>
-                            <td><a href="/home?zkPath=${leaf.strValue}">${leaf.strValue}</a></td>
+                            <td><a href="/cms-ability/zkui/home?zkPath=${leaf.strValue}">${leaf.strValue}</a></td>
                             <#else>
                             <td>
                                 <#if leaf.value??>
@@ -212,7 +212,7 @@
     <div class="row-fluid">
         <div class="col-md-12">
             <!-- Import Modal -->
-            <form id="importForm" method="post" action="/import" enctype="multipart/form-data">
+            <form id="importForm" method="post" action="/cms-ability/zkui/import" enctype="multipart/form-data">
                 <div class="modal fade" id="importModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">

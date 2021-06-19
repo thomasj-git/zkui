@@ -97,8 +97,8 @@ public enum ServletUtil {
                 Integer zkSessionTimeout = Integer.parseInt(globalProps.getProperty("zkSessionTimeout"));
                 //Converting seconds to ms.
                 zkSessionTimeout = zkSessionTimeout * 1000;
-                zk = ZooKeeperUtil.INSTANCE.createZKConnection(zkServer, zkSessionTimeout);
                 ZooKeeperUtil.INSTANCE.setDefaultAcl(globalProps.getProperty("defaultAcl"));
+                zk = ZooKeeperUtil.INSTANCE.createZKConnection(zkServer, zkSessionTimeout,globalProps);
                 if (zk.getState() != ZooKeeper.States.CONNECTED) {
                     session.setAttribute("zk", null);
                 } else {

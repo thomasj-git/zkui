@@ -47,7 +47,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @SuppressWarnings("serial")
-@WebServlet(urlPatterns = {"/import"})
+@WebServlet(urlPatterns = {"/cms-ability/zkui/import"})
 @MultipartConfig(fileSizeThreshold = 1024 * 1024 * 10, // 10 MB
         maxFileSize = 1024 * 1024 * 50, // 50 MB
         maxRequestSize = 1024 * 1024 * 100)      // 100 MB
@@ -136,7 +136,7 @@ public class Import extends HttpServlet {
             }
             br.close();
 
-            ZooKeeperUtil.INSTANCE.importData(importFile, Boolean.valueOf(scmOverwrite), ServletUtil.INSTANCE.getZookeeper(request, response, zkServerLst[0], globalProps));
+            ZooKeeperUtil.INSTANCE.importData(importFile, Boolean.valueOf(scmOverwrite), ServletUtil.INSTANCE.getZookeeper(request, response, zkServerLst[0], globalProps),globalProps);
             for (String line : importFile) {
                 if (line.startsWith("-")) {
                     dao.insertHistory((String) request.getSession().getAttribute("authName"), request.getRemoteAddr(), "File: " + uploadFileName + ", Deleting Entry: " + line);
@@ -145,7 +145,7 @@ public class Import extends HttpServlet {
                 }
             }
             request.getSession().setAttribute("flashMsg", "Import Completed!");
-            response.sendRedirect("/home");
+            response.sendRedirect("/cms-ability/zkui/home");
         } catch (FileUploadException | IOException | InterruptedException | KeeperException ex) {
             logger.error(Arrays.toString(ex.getStackTrace()));
             ServletUtil.INSTANCE.renderError(request, response, ex.getMessage());

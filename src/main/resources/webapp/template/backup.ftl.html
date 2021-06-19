@@ -1,0 +1,73 @@
+<!--
+#
+# Copyright (c) 2014, Deem Inc. All Rights Reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+-->
+<#import "layouts/main-layout.ftl.html" as main>
+<@main.page>
+
+<div class="container">
+    <form method="post" action="/cms-ability/zkui/backup" role="form" class="form-horizontal">
+        <div class="row-fluid">
+            <div class="col-md-12 text-center">
+                <h3>最近10个备份数据</h3>
+            </div>
+        </div>
+        <div class="row-fluid">
+            <div class="col-md-12 text-center">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th class="col-md-2">备份时间</th>
+                        <th class="col-md-3">记录数</th>
+                        <th class="col-md-4">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <#list backList as backup>
+                    <tr>
+                        <td>${backup.formatBackDate}</td>
+                        <td>${backup.lines}</td>
+                        <td>
+                            <a onclick="resumeData('${backup.formatBackDate}');" href="javascript:void(0);">恢复</a>
+                            &nbsp;
+                            <a onclick="deleteData('${backup.formatBackDate}');" href="javascript:void(0);">删除</a>
+                        </td>
+                    </tr>
+                    </#list>
+                    </tbody>
+                </table>
+
+
+            </div>
+        </div>
+    </form>
+</div>
+
+</@main.page>
+
+<script type="text/javascript">
+    function deleteData(date) {
+        if(window.confirm("是否确认删除此备份?")){
+            window.location.href = "/cms-ability/zkui/backup?operation=delete&backDate=" + date;
+        }
+    }
+
+    function resumeData(date) {
+        if(window.confirm("确定使用此备份进行恢复[此操作会覆盖原配置]?")){
+            window.location.href = "/cms-ability/zkui/backup?operation=resume&backDate=" + date;
+        }
+    }
+</script>
